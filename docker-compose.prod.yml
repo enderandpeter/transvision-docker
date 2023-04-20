@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  php:
+    environment:
+      - GIT_REMOTE=${GIT_REMOTE}
+
+volumes:
+  web: # If using a Docker volume, set this to the same name as $TRANSVISION_VOLUME

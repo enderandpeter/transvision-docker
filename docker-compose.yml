@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  php:
+    build:
+      context: php
+      args:
+        - "DEPLOY_USER=${DEPLOY_USER:-moz}"
+        - "DEPLOY_USER_NAME=${DEPLOY_USER_NAME:-Your Name}"
+        - "DEPLOY_USER_EMAIL=${DEPLOY_USER_EMAIL:-your@email.com}"
+        - "DEPLOY_USER_HOME=${DEPLOY_USER_HOME:-/home/$DEPLOY_USER}"
+        - "DATADIR=${DATADIR:-/moz-data}"
+        - "DEV_MODE=${DEV_MODE:-}"
+    restart: always
+    image: ${IMAGE_NS}/${COMPOSE_PROJECT_NAME}_php
+    container_name: ${COMPOSE_PROJECT_NAME}_php
+    environment:
+      - WORKDIR=${PHP_WORKDIR}
+    ports:
+      - "${PHP_WEB_PORT:-8020}:8082"
+    volumes:
+        - "${TRANSVISION_VOLUME}:${PHP_WORKDIR}"
+        - "moz-data:${DATADIR}"        
+  httpd:
+    build:
+      context: httpd
+    restart: always
+    image: ${IMAGE_NS}/${COMPOSE_PROJECT_NAME}_httpd
+    container_name: ${COMPOSE_PROJECT_NAME}_httpd    
+    environment:
+      - WORKDIR=${PHP_WORKDIR:-/var/www/html}
+      - SERVER_NAME=${SERVER_NAME}
+      - SERVER_ADMIN=${SERVER_ADMIN}
+      - PHP_SERVER=${COMPOSE_PROJECT_NAME}_php
+      - PHP_PORT=${PHP_PORT:-9000}
+    ports:
+      - "${HTTPD_WEB_PORT:-8022}:80"
+    volumes:
+      - "${TRANSVISION_VOLUME}:${PHP_WORKDIR}"
+      - "moz-data:${DATADIR}"
+volumes:
+  moz-data:
