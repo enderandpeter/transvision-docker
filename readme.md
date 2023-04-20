@@ -28,7 +28,7 @@ All Docker Compose `.env` settings are required unless otherwise noted:
 * `PHP_PORT` - (**default**: *9000*) The host port to map to php-fpm
 * `SERVER_NAME` - Set the main server name for httpd
 * `SERVER_ADMIN` - Set the admin email for httpd
-* `DEPLOY_USER` - The name of the user that is primarily used to do things in the container. It is strongly recommened that you mainly do actions as this user and only use root when necessary. Use `su - $DEPLOY_USER` to making changes in the system as this user.
+* `DEPLOY_USER` - (**default**: *moz*) The name of the user that is primarily used to do things in the container. It is strongly recommened that you mainly do actions as this user and only use root when necessary. Use `su - $DEPLOY_USER` to making changes in the system as this user.
 * `DEPLOY_USER_HOME` - (**default**: */home/$DEPLOY_USER*) The deploy user's home
 * `DEPLOY_USER_NAME` - (**default**: *Your Name*) The name for the git user in the container. Set this to your name in your dev environment, or a deploy user name in the production environment
 * `DEPLOY_USER_EMAIL` - (**default**: *your@email.com*) The email for the git user in the container.
